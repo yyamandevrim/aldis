@@ -1,7 +1,7 @@
-# onlytext — Design Spec
+# Aldis — Design Spec
 
 Date: 2026-11-26
-Status: approved (design), codename `onlytext` (final name + logo TBD later; name lives in one constant)
+Status: approved. Name: **Aldis** (after the Aldis lamp — the signal lamp control towers use to send Morse light signals to aircraft whose radio is out). Logo TBD; name lives in `APP_NAME`.
 
 ## Purpose
 
@@ -147,15 +147,15 @@ codex exec [resume <thread_id>] --json --skip-git-repo-check --ignore-user-confi
 
 - Owner allowlist; no webhook / no open port (long polling).
 - Codex has no shell, read-only sandbox, empty cwd, sanitized env.
-- Deploy runs as dedicated `onlytext` system user; `.env` root-owned, loaded via systemd
+- Deploy runs as dedicated `aldis` system user; `.env` root-owned, loaded via systemd
   `EnvironmentFile`. Residual risk: prompt injection from web pages could make the model read
-  files readable by the `onlytext` user (e.g. Codex `auth.json`); acceptable for a personal bot.
+  files readable by the `aldis` user (e.g. Codex `auth.json`); acceptable for a personal bot.
 
 ## Deploy
 
 - `deploy/setup.sh`: install bun + codex, create user + dirs, copy unit, prompt for
   `codex login --device-auth` as the service user.
-- `deploy/onlytext.service`: systemd, `MemoryMax=600M`, `Restart=on-failure`.
+- `deploy/aldis.service`: systemd, `MemoryMax=600M`, `Restart=on-failure`.
 - `.env.example` documented.
 
 ## Testing
@@ -171,4 +171,4 @@ page fetching, a second LLM adapter (interface is ready for it).
 
 ## Later
 
-Final name + Gemini-generated logo; then new GitHub repo + push (last step).
+Gemini-generated logo; then new GitHub repo + push (last step).
