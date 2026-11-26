@@ -1,0 +1,26 @@
+[Unit]
+Description=Aldis Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=aldis
+Group=aldis
+WorkingDirectory=/opt/aldis
+EnvironmentFile=/etc/aldis/aldis.env
+Environment=DATA_DIR=/var/lib/aldis
+Environment=HOME=/var/lib/aldis
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/bun run src/index.ts
+Restart=on-failure
+RestartSec=5
+MemoryMax=600M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/aldis
+
+[Install]
+WantedBy=multi-user.target
