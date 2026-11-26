@@ -31,6 +31,8 @@ export function buildCodexArgs({ sessionId, exaApiKey, model }: CodexArgsOptions
   args.push("--json", "--skip-git-repo-check", "--ignore-user-config");
   args.push("-c", 'sandbox_mode="read-only"');
   for (const feature of DISABLED_FEATURES) args.push("--disable", feature);
+  // Without this Codex prefers its built-in search over Exa.
+  args.push("-c", 'web_search="disabled"');
   args.push("-c", `mcp_servers.exa.url="${exaMcpUrl(exaApiKey)}"`);
   if (model) args.push("-m", model);
   args.push("-");

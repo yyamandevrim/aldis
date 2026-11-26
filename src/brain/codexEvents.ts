@@ -33,6 +33,7 @@ export function parseCodexLine(line: string): BrainEvent | null {
       if (item?.type === "mcp_tool_call" && typeof item.tool === "string") {
         return { type: "tool_start", tool: item.tool, detail: toolDetail(item.arguments) };
       }
+      if (item?.type === "web_search") return { type: "tool_start", tool: "web_search" };
       return null;
     case "item.completed":
       if (item?.type === "agent_message" && typeof item.text === "string") return { type: "message", text: item.text };

@@ -32,6 +32,7 @@ and replies in short, sequential Telegram messages.
   - `{"type":"turn.completed","usage":{...}}` — end of turn.
 - Prompt can be passed on stdin with `-`.
 - `--disable shell_tool --disable unified_exec` removes shell execution (verified: model reports no shell tool).
+- Codex prefers its built-in `web_search` over Exa unless `-c web_search="disabled"` is passed (verified end-to-end).
 - `--ignore-user-config` + `-c 'mcp_servers.exa.url="..."'` works; Exa hosted MCP works even without a key (free tier, rate limited). With a key: `https://mcp.exa.ai/mcp?exaApiKey=<key>`.
 - Peak RSS of a simple run: ~140 MB (macOS measurement).
 
@@ -116,7 +117,7 @@ bot.ts ── authGuard (ALLOWED_USER_ID)
 codex exec [resume <thread_id>] --json --skip-git-repo-check --ignore-user-config
   -s read-only --disable shell_tool --disable unified_exec --disable apps --disable plugins
   --disable browser_use --disable in_app_browser --disable computer_use --disable view_image
-  -c 'mcp_servers.exa.url="https://mcp.exa.ai/mcp?exaApiKey=<key>"'
+  -c 'web_search="disabled"' -c 'mcp_servers.exa.url="https://mcp.exa.ai/mcp?exaApiKey=<key>"'
   [-m <CODEX_MODEL>] -
 ```
 - cwd: empty work dir (`DATA_DIR/work`).

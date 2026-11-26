@@ -29,6 +29,13 @@ describe("parseCodexLine", () => {
     ).toEqual({ type: "tool_start", tool: "web_fetch_exa", detail: "https://a" });
   });
 
+  test("built-in web search start", () => {
+    expect(p(j({ type: "item.started", item: { type: "web_search", action: { type: "other" } } }))).toEqual({
+      type: "tool_start",
+      tool: "web_search",
+    });
+  });
+
   test("warning item", () => {
     expect(p(j({ type: "item.completed", item: { type: "error", message: "deprecated" } }))).toEqual({
       type: "warning",
