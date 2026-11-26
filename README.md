@@ -1,4 +1,6 @@
-# Aldis
+<p align="center"><img src="assets/logo/aldis-round.png" width="140" alt="Aldis logo: a brass signal lamp"></p>
+
+<h1 align="center">Aldis</h1>
 
 A private Telegram bot that keeps you connected to the world when all you have is a text chat, like messaging-only Wi-Fi on a plane. Ask what happened, it searches the web, reads the pages, and answers in short messages, one paragraph at a time.
 
@@ -40,7 +42,9 @@ Telegram ──► Aldis (Bun, ~60 MB) ──► codex exec (your ChatGPT plan) 
    journalctl -u aldis -f
    ```
    Device-code login may need to be enabled first in ChatGPT's security settings.
-5. Optional: set the bot avatar with BotFather `/setuserpic`.
+5. Set the bot avatar with BotFather `/setuserpic` → `assets/logo/aldis-avatar-512.png` (Telegram crops it to a circle).
+
+Logo files in `assets/logo/`: `aldis-square.png` (full bleed, 1024), `aldis-avatar-512.png` (Telegram), `aldis-icon.png` (rounded app icon), `aldis-round.png` (circle, README).
 
 ## Configuration
 
