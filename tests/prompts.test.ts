@@ -27,10 +27,12 @@ describe("prompts", () => {
     expect(p.endsWith("Peki ya?")).toBe(true);
   });
 
-  test("brief request lists topics", () => {
+  test("brief request lists topics and is written in Turkish", () => {
+    // The persona replies in the user's language, so the request itself must be Turkish.
     const r = buildBriefRequest(["world", "tech"]);
     expect(r).toContain("world, tech");
-    expect(r).toContain("24 hours");
+    expect(r).toContain("son 24 saat");
+    expect(r).not.toContain("Give me");
   });
 
   test("describeError maps quota errors", () => {

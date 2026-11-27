@@ -33,12 +33,13 @@ export function buildTurnPrompt(userText: string, ctx: PromptContext, isNewSessi
   return `${persona(ctx.appName)}\n\n${header}\n\nUser message:\n${userText}`;
 }
 
+/** Written in Turkish on purpose: the persona answers in the language of the request. */
 export function buildBriefRequest(topics: string[]): string {
   return [
-    `Give me a briefing of what happened in the last 24 hours for these topics: ${topics.join(", ")}.`,
-    "Search each topic separately.",
-    "For each topic: one **bold** title line, then 2-4 of the most important items, each one or two sentences with date and source link.",
-    "Skip a topic if nothing notable happened.",
-    "If something major happened outside these topics, add one final short paragraph about it.",
+    `Şu konularda son 24 saatte neler olduğunu özetle: ${topics.join(", ")}.`,
+    "Her konuyu ayrı ayrı ara.",
+    "Her konu için kalın (**...**) bir başlık satırı, altında en önemli 2-4 gelişme; her biri bir iki cümle, tarih ve kaynak linkiyle.",
+    "Kayda değer bir şey olmayan konuyu atla.",
+    "Bu konuların dışında büyük bir gelişme varsa sona kısa bir paragraf ekle.",
   ].join("\n");
 }
