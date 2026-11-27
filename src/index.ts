@@ -6,6 +6,7 @@ import { ChatLock } from "./bot/chatLock";
 import { BOT_COMMANDS } from "./bot/commands";
 import { Conversation } from "./bot/conversation";
 import { CodexBrain } from "./brain/codex";
+import { checkCodexInstall } from "./brain/codexPreflight";
 import { APP_NAME, loadConfig } from "./config";
 import { fromGrammy } from "./delivery/telegram";
 import { log } from "./log";
@@ -20,6 +21,9 @@ async function main(): Promise<void> {
   const workDir = join(config.dataDir, "work");
   await mkdir(workDir, { recursive: true });
   await mkdir(config.codexHome, { recursive: true });
+
+  const installProblem = checkCodexInstall(config.codexBin);
+  if (installProblem) log.error(installProblem);
 
   const sessions = new SessionStore(openDb(join(config.dataDir, "aldis.sqlite")));
   const brain = new CodexBrain({

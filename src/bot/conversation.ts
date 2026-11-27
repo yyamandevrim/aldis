@@ -131,7 +131,9 @@ export class Conversation {
           outcome.answer = ev.text;
           break;
         case "warning":
-          log.debug("codex warning", ev.message);
+          // e.g. "Code Mode is unavailable because failed to spawn code-mode host…"
+          if (/unavailable|failed to spawn|not found/i.test(ev.message)) log.error("codex warning", ev.message);
+          else log.debug("codex warning", ev.message);
           break;
         case "error":
           outcome.error = ev.message;
