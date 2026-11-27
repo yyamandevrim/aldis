@@ -16,16 +16,35 @@ if ! command -v bun >/dev/null; then
   curl -fsSL https://bun.sh/install | BUN_INSTALL=/usr/local bash
 fi
 
-if ! command -v codex >/dev/null; then
-  case "$(uname -m)" in
-    x86_64) target=x86_64-unknown-linux-musl ;;
-    aarch64 | arm64) target=aarch64-unknown-linux-musl ;;
-    *) echo "Unsupported arch $(uname -m)" >&2; exit 1 ;;
-  esac
+# Codex needs two binaries side by side: `codex` and `codex-code-mode-host`
+# (tool calls, including Exa MCP, run through the host; without it every search fails).
+case "$(uname -m)" in
+  x86_64) target=x86_64-unknown-linux-musl ;;
+  aarch64 | arm64) target=aarch64-unknown-linux-musl ;;
+  *) echo "Unsupported arch $(uname -m)" >&2; exit 1 ;;
+esac
+codex_release_url() {
+  local bin=$1 version=$2
+  if [[ -n $version ]]; then
+    echo "https://github.com/openai/codex/releases/download/rust-v${version}/${bin}-${target}.tar.gz"
+  else
+    echo "https://github.com/openai/codex/releases/latest/download/${bin}-${target}.tar.gz"
+  fi
+}
+install_codex_bin() {
+  local bin=$1 version=$2 tmp
   tmp=$(mktemp -d)
-  curl -fsSL "https://github.com/openai/codex/releases/latest/download/codex-${target}.tar.gz" | tar -xz -C "$tmp"
-  install -m 755 "$tmp/codex-${target}" /usr/local/bin/codex
+  curl -fsSL "$(codex_release_url "$bin" "$version")" | tar -xz -C "$tmp"
+  install -m 755 "$tmp/${bin}-${target}" "/usr/local/bin/${bin}"
   rm -rf "$tmp"
+}
+if [[ ! -x /usr/local/bin/codex ]]; then
+  install_codex_bin codex ""
+fi
+# Pin the host to the installed codex version so the pair always matches.
+codex_version=$(/usr/local/bin/codex --version | awk '{print $2}')
+if [[ ! -x /usr/local/bin/codex-code-mode-host ]]; then
+  install_codex_bin codex-code-mode-host "$codex_version"
 fi
 
 id aldis >/dev/null 2>&1 || useradd --system --home-dir "$DATA_DIR" --create-home --shell /usr/sbin/nologin aldis
